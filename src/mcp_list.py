@@ -11,6 +11,11 @@ mcp_list = {
         "args": "@modelcontextprotocol/server-filesystem [full_path_of_your_permissions_folder]",
         "env": []
     },
+    "Brave MCP": {
+        "command": "npx",
+        "args": "@modelcontextprotocol/server-brave-search",
+        "env": [{"BRAVE_API_KEY": os.getenv("BRAVE_API_KEY","")}]
+    },
     "GitHub MCP": {
         "command": "npx",
         "args": "@modelcontextprotocol/server-github",
