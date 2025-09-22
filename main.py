@@ -22,8 +22,9 @@ def main():
                     interactive=True
                 )
         
+            command_textbox = gr.Textbox(label="command", lines=1,max_lines=1)
             args_textbox = gr.Textbox(label="args", lines=1,max_lines=1)
-            
+
             gr.Markdown("---")
             gr.Markdown("### Environment Variables")
         
@@ -40,7 +41,7 @@ def main():
             mcp_set.change(
                 fn=update_ui_from_selection,
                 inputs=mcp_set,
-                outputs=[args_textbox] + env_textboxes
+                outputs=[command_textbox, args_textbox] + env_textboxes
             )
             
             add_button.click(
@@ -62,7 +63,7 @@ def main():
             logs_area = gr.TextArea(label="Logs", lines=10, max_lines=10)
             send_button.click(
                 fn=run_agent, 
-                inputs=[system_prompt_textbox,user_prompt_textbox,args_textbox] + env_textboxes,
+                inputs=[system_prompt_textbox,user_prompt_textbox,command_textbox,args_textbox] + env_textboxes,
                 outputs=[result_area, token_area, logs_area]
             )
         
