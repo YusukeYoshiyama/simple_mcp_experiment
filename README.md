@@ -35,7 +35,7 @@ Follow these steps to get the project up and running.
 
 1.  **Clone the repository:**
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/YusukeYoshiyama/simple_mcp_experiment
     cd mcp_simple_experiment
     ```
 
