@@ -25,7 +25,7 @@ async def run_agent(system_prompt, user_prompt, command, args, *envs):
             {"messages": [{"role": "user", "content": user_prompt}]}
         )
     tokens_str, logs_str = format_logs(response)
-    return response["messages"][-1].content, tokens_str, logs_str
+    return response, tokens_str, logs_str, tools
 
 def format_logs(result):
     token_info = {

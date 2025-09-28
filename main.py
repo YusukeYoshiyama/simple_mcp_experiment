@@ -9,6 +9,12 @@ from src.mcp_execution import run_agent
 from src.frontend_function import update_ui_from_selection, add_env_row
 from src.mcp_list import mcp_list
 from src.system_prompt_template import system_prompt
+from src.evaluation import evaluation
+
+async def execute_agent(system_prompt, user_prompt, command, args, *envs):
+    result, tokens, logs, tools = await run_agent(system_prompt, user_prompt, command, args, *envs)    
+    evaluation_results = evaluation(user_prompt, result, tools)
+    return result["messages"][-1].content, tokens, logs, evaluation_results
 
 def main():
     max_envs = int(os.getenv("MAX_ENVS","10"))
@@ -61,10 +67,11 @@ def main():
                     result_area = gr.TextArea(label="Result", scale=2, lines=6, max_lines=6)
                     token_area = gr.TextArea(label="Tokens", scale=1, lines=6, max_lines=6)
             logs_area = gr.TextArea(label="Logs", lines=10, max_lines=10)
+            evaluation_area = gr.TextArea(label="Evaluation Results", lines=15, max_lines=15)
             send_button.click(
-                fn=run_agent, 
+                fn=execute_agent, 
                 inputs=[system_prompt_textbox,user_prompt_textbox,command_textbox,args_textbox] + env_textboxes,
-                outputs=[result_area, token_area, logs_area]
+                outputs=[result_area, token_area, logs_area, evaluation_area]
             )
         
     app.launch()
